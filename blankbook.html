@@ -1,0 +1,24 @@
+<head>
+  <title>My Blank Book</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <h1>My Self</h1>
+    </header>
+
+    {{#each books}}
+      {{> book }}
+    {{/each}}
+
+  </div>
+  
+</body>
+
+<template name="book">
+  <textarea name="booktext" class="write">
+    {{booktext}}
+  </textarea>
+</template>
