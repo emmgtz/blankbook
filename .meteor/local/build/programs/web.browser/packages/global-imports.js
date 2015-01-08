@@ -21,5 +21,6 @@ jQuery = Package.jquery.jQuery;
 Random = Package.random.Random;
 EJSON = Package.ejson.EJSON;
 LaunchScreen = Package['launch-screen'].LaunchScreen;
+Accounts = Package['accounts-base'].Accounts;
 HTML = Package.htmljs.HTML;
 

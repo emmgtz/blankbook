@@ -6,19 +6,35 @@
 
   <div class="container">
     <header>
-      <h1>My Self</h1>
+      <h1>
+        {{#if currentUser}}
+          {{currentUser.username}}'s
+        {{else}}
+          My
+        {{/if}} Book
+      </h1>
+      
+      {{> loginButtons}}
+    
     </header>
+    
+    {{#if currentUser}}
 
-    {{#each books}}
-      {{> book }}
-    {{/each}}
-
+      {{#if bookExist}}
+          {{#each books}}
+            {{> book }}
+          {{/each}}
+      {{else}}
+            <form class="new-book">
+              <input type="text" name="booktitle" placeholder="Type book title" />
+            </form>
+      {{/if}}
+      
+    {{/if}}
   </div>
   
 </body>
 
 <template name="book">
-  <textarea name="booktext" class="write">
-    {{booktext}}
-  </textarea>
+  <textarea name="booktext" class="write">{{booktext}}</textarea>  
 </template>
