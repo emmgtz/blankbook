@@ -17,10 +17,13 @@ BlankBooks = new Mongo.Collection("blankbooks");
 ******************************************************************************************************/
 if (Meteor.isClient) {
   
+  Meteor.subscribe("blankbooks");
+  
   Template.body.helpers({
+    
     bookExist: function () {
       
-      var bookExist = BlankBooks.findOne({owner: Meteor.user().username});
+      var bookExist = BlankBooks.findOne({_id: Meteor.userId()});
       
       if( bookExist ) {
           return true;
@@ -34,7 +37,7 @@ if (Meteor.isClient) {
       console.log("_id: " + Meteor.userId());
       console.log("owner: " + Meteor.user().username);
 
-      return BlankBooks.find({owner: Meteor.user().username});
+      return BlankBooks.find({_id: Meteor.userId(), owner: Meteor.user().username});
     }
     
   });
@@ -87,10 +90,10 @@ if (Meteor.isClient) {
 /******************************************************************************************************
  *
  * Meteor methods.
- * This code only runs on the Server side.
  *
 ******************************************************************************************************/
 Meteor.methods ({
+   
    addBook: function(booktitle) {
       if (! Meteor.userId()) {
         throw new Meteor.Error("not-authorized");
@@ -113,3 +116,15 @@ Meteor.methods ({
      
    }
 });
+
+/******************************************************************************************************
+ *
+ * This code only runs on the Server side.
+ *
+******************************************************************************************************/
+
+if (Meteor.isServer) {
+  Meteor.publish("blankbooks", function () {
+    return BlankBooks.find({_id: this.userId});
+  });
+}
