@@ -1,18 +1,24 @@
 
 /*
-meteor:PRIMARY> db.blankbooks.insert({ owner: "John Doe", booktitle: "blank", booktext: "My Own Book"});
-meteor:PRIMARY> db.blankbooks.insert({ owner: "Pepe", booktitle: "MyBB", booktext: "My Blank Book"});
+db.blankbooks.insert({ 
+    _id: Meteor.userId(),
+    owner: Meteor.user().username,
+    booktitle: booktitle,
+    booktext: ""
+});
 */
 BlankBooks = new Mongo.Collection("blankbooks");
 
+/******************************************************************************************************
+ *
+ * Client side logic.
+ * This code only runs on the client.
+ *
+******************************************************************************************************/
 if (Meteor.isClient) {
-  // This code only runs on the client
   
   Template.body.helpers({
     bookExist: function () {
-      
-      console.log("bookExist _id: " + Meteor.userId());
-      console.log("owner: " + Meteor.user().username);
       
       var bookExist = BlankBooks.findOne({owner: Meteor.user().username});
       
@@ -37,22 +43,12 @@ if (Meteor.isClient) {
     
     "submit .new-book": function (event) {
       
-      console.log("event: " + event);
-      
       var booktitle = event.target.booktitle.value;
         
-      console.log("owner: " + Meteor.userId());
-      console.log("booktitle: " + booktitle);
+      //console.log("owner: " + Meteor.userId());
+      //console.log("booktitle: " + booktitle);
 
       Meteor.call("addBook", booktitle);
-      /*
-      BlankBooks.insert({
-        _id: Meteor.userId(),
-        owner: Meteor.user().username,
-        booktitle: booktitle,
-        booktext: inittext
-      });
-      */
 
       // Clear form
       event.target.booktitle.value = "";
@@ -70,7 +66,6 @@ if (Meteor.isClient) {
       var booktext = event.target.value;
       
       Meteor.call("updateBook", this._id, booktext);
-      //BlankBooks.update( this._id, { $set: {booktext: booktext}});
       
       // Prevent default form submitted
       return false;
@@ -89,6 +84,12 @@ if (Meteor.isClient) {
   });
 }
 
+/******************************************************************************************************
+ *
+ * Meteor methods.
+ * This code only runs on the Server side.
+ *
+******************************************************************************************************/
 Meteor.methods ({
    addBook: function(booktitle) {
       if (! Meteor.userId()) {
