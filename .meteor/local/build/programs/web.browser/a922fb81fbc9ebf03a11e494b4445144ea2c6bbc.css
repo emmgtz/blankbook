@@ -441,14 +441,6 @@ form {
   position: relative;
 }
 
-/*
-textarea.noscrollbars {
-  overflow: hidden;
-  width: 100%;
-  height: 200px;
-}
-*/
-
 .write {
   box-sizing: border-box;
   padding: 10px 0;
