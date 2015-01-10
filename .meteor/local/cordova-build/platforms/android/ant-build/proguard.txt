@@ -1,0 +1,3 @@
+# view AndroidManifest.xml #generated:6
+-keep class com.id1qisch91kz81ve8y57k6.blankbook { <init>(...); }
+
